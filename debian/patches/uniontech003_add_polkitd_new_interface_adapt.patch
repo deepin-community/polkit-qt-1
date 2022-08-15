@@ -1,0 +1,245 @@
+Index: polkit-qt-1/agent/polkitqt1-agent-session.cpp
+===================================================================
+--- polkit-qt-1.orig/agent/polkitqt1-agent-session.cpp
++++ polkit-qt-1/agent/polkitqt1-agent-session.cpp
+@@ -6,10 +6,12 @@
+ */
+ 
+ #include "polkitqt1-agent-session.h"
+-
+-#include <QDebug>
++#include "polkitqt1-details.h"
+ 
+ #include "polkitqt1-identity.h"
++#include <QDebug>
++#include <QList>
++#include <QStringList>
+ 
+ #define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE 1
+ #include <polkitagent/polkitagent.h>
+@@ -26,6 +28,10 @@ public:
+     static void request(PolkitAgentSession *s, gchar *request, gboolean echo_on, gpointer user_data);
+     static void showError(PolkitAgentSession *s, gchar *text, gpointer user_data);
+     static void showInfo(PolkitAgentSession *s, gchar *text, gpointer user_data);
++    static void exAuthStatus(PolkitAgentSession *s, int statusCode,
++                             int authFlags, gchar *msg, gpointer user_data);
++    static void exAuthInfo(PolkitAgentSession *s, int isMfa, gchar *authTypes,
++                           gpointer user_data);
+ 
+     AsyncResult *result;
+     PolkitAgentSession *polkitAgentSession;
+@@ -41,11 +47,54 @@ Session::Session(const PolkitQt1::Identi
+         , d(new Private)
+ {
+     d->result = result;
+-    d->polkitAgentSession = polkit_agent_session_new(identity.identity(), cookie.toUtf8().data());
+-    g_signal_connect(G_OBJECT(d->polkitAgentSession), "completed", G_CALLBACK(Private::completed), this);
+-    g_signal_connect(G_OBJECT(d->polkitAgentSession), "request", G_CALLBACK(Private::request), this);
+-    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-error", G_CALLBACK(Private::showError), this);
+-    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-info", G_CALLBACK(Private::showInfo), this);
++    d->polkitAgentSession =
++        polkit_agent_session_new(identity.identity(), cookie.toUtf8().data());
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "completed",
++                     G_CALLBACK(Private::completed), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "request",
++                     G_CALLBACK(Private::request), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-error",
++                     G_CALLBACK(Private::showError), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-info",
++                     G_CALLBACK(Private::showInfo), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "status",
++                     G_CALLBACK(Private::exAuthStatus), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "auth-info",
++                     G_CALLBACK(Private::exAuthInfo), this);
++}
++
++Session::Session(const PolkitQt1::Identity &identity, const QString &cookie,
++                 AsyncResult *result, const PolkitQt1::Details *details,
++                 QObject *parent)
++    : QObject(parent), d(new Private)
++{
++    d->result = result;
++
++    if (details)
++    {
++        d->polkitAgentSession = polkit_agent_session_new_ex(
++            identity.identity(), cookie.toUtf8().data(), details->details());
++    }
++    else
++    {
++        d->polkitAgentSession =
++            polkit_agent_session_new(identity.identity(), cookie.toUtf8().data());
++    }
++
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "completed",
++                     G_CALLBACK(Private::completed), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "request",
++                     G_CALLBACK(Private::request), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-error",
++                     G_CALLBACK(Private::showError), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-info",
++                     G_CALLBACK(Private::showInfo), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-info",
++                     G_CALLBACK(Private::showInfo), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "status",
++                     G_CALLBACK(Private::exAuthStatus), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "auth-info",
++                     G_CALLBACK(Private::exAuthInfo), this);
+ }
+ 
+ Session::Session(PolkitAgentSession *pkAgentSession, QObject *parent)
+@@ -60,6 +109,10 @@ Session::Session(PolkitAgentSession *pkA
+     g_signal_connect(G_OBJECT(d->polkitAgentSession), "request", G_CALLBACK(Private::request), this);
+     g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-error", G_CALLBACK(Private::showError), this);
+     g_signal_connect(G_OBJECT(d->polkitAgentSession), "show-info", G_CALLBACK(Private::showInfo), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "status",
++                     G_CALLBACK(Private::exAuthStatus), this);
++    g_signal_connect(G_OBJECT(d->polkitAgentSession), "auth-info",
++                     G_CALLBACK(Private::exAuthInfo), this);
+ }
+ 
+ Session::~Session()
+@@ -80,6 +133,18 @@ void Session::setResponse(const QString
+     polkit_agent_session_response(d->polkitAgentSession, response.toUtf8().data());
+ }
+ 
++void Session::setResponseEx(int authFlags, const QString &response)
++{
++    polkit_agent_session_response_ex(d->polkitAgentSession, authFlags,
++                                     response.toUtf8().data());
++}
++
++void Session::authCtrl(auth_ctrl_t ctrl, int authFlags)
++{
++    polkit_agent_session_ctrl(d->polkitAgentSession, authFlags,
++                              session_ctrl_t(ctrl));
++}
++
+ void Session::cancel()
+ {
+     polkit_agent_session_cancel(d->polkitAgentSession);
+@@ -118,6 +183,36 @@ void Session::Private::showInfo(PolkitAg
+     qDebug() << "showInfo";
+     Q_EMIT((Session *)user_data)->showInfo(QString::fromUtf8(text));
+ }
++void Session::Private::exAuthStatus(PolkitAgentSession *s, int statusCode,
++                                    int authFlags, gchar *msg,
++                                    gpointer user_data)
++{
++    qDebug() << "exAuthStatus";
++
++    Q_EMIT((Session *)user_data)
++        ->exAuthStatus(statusCode, authFlags, QString::fromUtf8(msg));
++}
++
++void Session::Private::exAuthInfo(PolkitAgentSession *s, int isMfa,
++                                  gchar *authTypes, gpointer user_data)
++{
++    qDebug() << "exAuthInfo";
++    QString strAuthTypes = QString::fromUtf8(authTypes);
++
++    QStringList strListAuthTypes =
++        strAuthTypes.split(QChar(','), QString::SkipEmptyParts);
++
++    QList<int> intAuthTypes;
++    QList<QString>::iterator it = strListAuthTypes.begin();
++    for (; it != strListAuthTypes.end(); it++)
++    {
++        intAuthTypes.append((*it).toInt());
++    }
++
++    qDebug() << intAuthTypes;
++
++    Q_EMIT((Session *)user_data)->exAuthInfo(isMfa, intAuthTypes);
++}
+ 
+ //
+ 
+Index: polkit-qt-1/agent/polkitqt1-agent-session.h
+===================================================================
+--- polkit-qt-1.orig/agent/polkitqt1-agent-session.h
++++ polkit-qt-1/agent/polkitqt1-agent-session.h
+@@ -8,9 +8,13 @@
+ #ifndef POLKITQT1_AGENT_SESSION_H
+ #define POLKITQT1_AGENT_SESSION_H
+ 
+-#include <QObject>
++#include "polkitqt1-details.h"
+ #include "polkitqt1-identity.h"
+ #include "polkitqt1-agent-export.h"
++#include <QList>
++#include <QObject>
++
++typedef enum { AUTH_START = 1, AUTH_CLOSE } auth_ctrl_t;
+ 
+ typedef struct _GSimpleAsyncResult GSimpleAsyncResult;
+ typedef struct _PolkitAgentSession PolkitAgentSession;
+@@ -95,6 +99,12 @@ public:
+      */
+     explicit Session(PolkitAgentSession *pkAgentSession, QObject *parent = nullptr);
+ 
++
++    Session(const PolkitQt1::Identity &identity, const QString &cookie,
++            AsyncResult *result = 0, const PolkitQt1::Details *details = 0,
++            QObject *parent = 0);
++
++
+     /**
+      * Destroy authentication session.
+      */
+@@ -114,6 +124,15 @@ public:
+      */
+     void setResponse(const QString &response);
+ 
++    void setResponseEx(int authFlags, const QString &response);
++
++    /**
++     * control the authentication
++     *
++     * \param ctrl the control flag.
++     */
++    void authCtrl(auth_ctrl_t ctrl, int authFlags);
++
+     /**
+      * Cancel the authentication session.
+      * This will emit the completed() signal.
+@@ -161,6 +180,11 @@ Q_SIGNALS:
+      */
+     void showInfo(const QString &text);
+ 
++    void exAuthStatus(int statusCode, int authType, const QString &msg);
++
++    void exAuthInfo(bool isMfa, QList<int> &authTypes);
++
++
+ private:
+     class Private;
+     Private * const d;
+Index: polkit-qt-1/core/polkitqt1-details.cpp
+===================================================================
+--- polkit-qt-1.orig/core/polkitqt1-details.cpp
++++ polkit-qt-1/core/polkitqt1-details.cpp
+@@ -91,4 +91,9 @@ QStringList Details::keys() const
+     return list;
+ }
+ 
++PolkitDetails *Details::details() const 
++{ 
++    return d->polkitDetails; 
++}
++
+ }
+Index: polkit-qt-1/core/polkitqt1-details.h
+===================================================================
+--- polkit-qt-1.orig/core/polkitqt1-details.h
++++ polkit-qt-1/core/polkitqt1-details.h
+@@ -74,6 +74,9 @@ public:
+      * \return List of all keys.
+      */
+     QStringList keys() const;
++
++    PolkitDetails *details() const;
++
+ private:
+     class Data;
+     QExplicitlySharedDataPointer< Data > d;
