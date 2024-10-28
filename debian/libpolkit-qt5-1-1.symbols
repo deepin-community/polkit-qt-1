@@ -1,4 +1,4 @@
-# SymbolsHelper-Confirmed: 0.113.0 amd64
+# SymbolsHelper-Confirmed: 0.200.0 amd64 i386
 libpolkit-qt5-agent-1.so.1 libpolkit-qt5-1-1 #MINVER#
 * Build-Depends-Package: libpolkit-qt5-1-dev
  _ZN9PolkitQt15Agent11AsyncResult12setCompletedEv@Base 0.112.0
@@ -116,8 +116,10 @@ libpolkit-qt5-core-1.so.1 libpolkit-qt5-1-1 #MINVER#
  _ZN9PolkitQt122TemporaryAuthorizationaSERKS0_@Base 0.112.0
  _ZN9PolkitQt17Details6insertERK7QStringS3_@Base 0.112.0
  _ZN9PolkitQt17DetailsC1EP14_PolkitDetails@Base 0.112.0
+ _ZN9PolkitQt17DetailsC1ERKS0_@Base 0.200.0
  _ZN9PolkitQt17DetailsC1Ev@Base 0.112.0
  _ZN9PolkitQt17DetailsC2EP14_PolkitDetails@Base 0.112.0
+ _ZN9PolkitQt17DetailsC2ERKS0_@Base 0.200.0
  _ZN9PolkitQt17DetailsC2Ev@Base 0.112.0
  _ZN9PolkitQt17DetailsD1Ev@Base 0.112.0
  _ZN9PolkitQt17DetailsD2Ev@Base 0.112.0
@@ -185,23 +187,6 @@ libpolkit-qt5-core-1.so.1 libpolkit-qt5-1-1 #MINVER#
  _ZN9PolkitQt19Authority37unregisterAuthenticationAgentFinishedEb@Base 0.112.0
  _ZN9PolkitQt19Authority38enumerateTemporaryAuthorizationsCancelEv@Base 0.112.0
  _ZN9PolkitQt19Authority40enumerateTemporaryAuthorizationsFinishedE5QListINS_22TemporaryAuthorizationEE@Base 0.112.0
- _ZN9PolkitQt19Authority7Private10dbusFilterERK12QDBusMessage@Base 0.112.0
- _ZN9PolkitQt19Authority7Private13dbusSignalAddERK7QStringS4_S4_S4_@Base 0.112.0
- _ZN9PolkitQt19Authority7Private17convertDetailsMapERK4QMapI7QStringS3_E@Base 0.113.0
- _ZN9PolkitQt19Authority7Private17pk_config_changedEv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private18seatSignalsConnectERK7QString@Base 0.112.0
- _ZN9PolkitQt19Authority7Private24enumerateActionsCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private26checkAuthorizationCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private35authenticationAgentResponseCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private35registerAuthenticationAgentCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private36revokeTemporaryAuthorizationCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private37revokeTemporaryAuthorizationsCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private37unregisterAuthenticationAgentCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private40enumerateTemporaryAuthorizationsCallbackEP8_GObjectP13_GAsyncResultPv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private4initEv@Base 0.112.0
- _ZN9PolkitQt19Authority7Private8setErrorENS0_9ErrorCodeERK7QStringb@Base 0.112.0
- _ZN9PolkitQt19Authority7PrivateD1Ev@Base 0.112.0
- _ZN9PolkitQt19Authority7PrivateD2Ev@Base 0.112.0
  _ZN9PolkitQt19Authority8instanceEP16_PolkitAuthority@Base 0.112.0
  _ZN9PolkitQt19AuthorityC1EP16_PolkitAuthorityP7QObject@Base 0.112.0
  _ZN9PolkitQt19AuthorityC2EP16_PolkitAuthorityP7QObject@Base 0.112.0
@@ -245,12 +230,9 @@ libpolkit-qt5-core-1.so.1 libpolkit-qt5-1-1 #MINVER#
  (optional=templinst)_ZNSt8_Rb_treeI7QStringSt4pairIKS0_S0_ESt10_Select1stIS3_ESt4lessIS0_ESaIS3_EE24_M_get_insert_unique_posERS2_@Base 0.113.0
  (optional=templinst)_ZNSt8_Rb_treeI7QStringSt4pairIKS0_S0_ESt10_Select1stIS3_ESt4lessIS0_ESaIS3_EE29_M_get_insert_hint_unique_posESt23_Rb_tree_const_iteratorIS3_ERS2_@Base 0.113.0
  _ZTI11QSharedData@Base 0.112.0
- _ZTIN9PolkitQt117ActionDescription4DataE@Base 0.112.0
  _ZTIN9PolkitQt19AuthorityE@Base 0.112.0
  _ZTS11QSharedData@Base 0.112.0
- _ZTSN9PolkitQt117ActionDescription4DataE@Base 0.112.0
  _ZTSN9PolkitQt19AuthorityE@Base 0.112.0
- _ZTVN9PolkitQt117ActionDescription4DataE@Base 0.112.0
  _ZTVN9PolkitQt19AuthorityE@Base 0.112.0
 libpolkit-qt5-gui-1.so.1 libpolkit-qt5-1-1 #MINVER#
 * Build-Depends-Package: libpolkit-qt5-1-dev
@@ -280,11 +262,6 @@ libpolkit-qt5-gui-1.so.1 libpolkit-qt5-1-1 #MINVER#
  _ZN9PolkitQt13Gui6Action15setPolkitActionERK7QString@Base 0.112.0
  _ZN9PolkitQt13Gui6Action16staticMetaObjectE@Base 0.112.0
  _ZN9PolkitQt13Gui6Action6revokeEv@Base 0.112.0
- _ZN9PolkitQt13Gui6Action7Private12updateActionEv@Base 0.112.0
- _ZN9PolkitQt13Gui6Action7Private13configChangedEv@Base 0.112.0
- _ZN9PolkitQt13Gui6Action7Private15computePkResultEv@Base 0.112.0
- _ZN9PolkitQt13Gui6Action7PrivateC1EPS1_@Base 0.112.0
- _ZN9PolkitQt13Gui6Action7PrivateC2EPS1_@Base 0.112.0
  _ZN9PolkitQt13Gui6Action7setIconERK5QIcon6QFlagsINS1_5StateEE@Base 0.112.0
  _ZN9PolkitQt13Gui6Action7setTextERK7QString6QFlagsINS1_5StateEE@Base 0.112.0
  _ZN9PolkitQt13Gui6Action8activateEv@Base 0.112.0

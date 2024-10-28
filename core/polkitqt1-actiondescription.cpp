@@ -15,7 +15,7 @@
 namespace PolkitQt1
 {
 
-class ActionDescription::Data : public QSharedData
+class Q_DECL_HIDDEN ActionDescription::Data : public QSharedData
 {
 public:
     Data() {}
@@ -55,8 +55,6 @@ ActionDescription::ActionDescription()
 ActionDescription::ActionDescription(PolkitActionDescription *polkitActionDescription)
         : d(new Data)
 {
-    g_type_init();
-
     d->actionId = QString::fromUtf8(polkit_action_description_get_action_id(polkitActionDescription));
     d->description = QString::fromUtf8(polkit_action_description_get_description(polkitActionDescription));
     d->message = QString::fromUtf8(polkit_action_description_get_message(polkitActionDescription));

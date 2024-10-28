@@ -14,7 +14,7 @@
 namespace PolkitQt1
 {
 
-class Identity::Data : public QSharedData
+class Q_DECL_HIDDEN Identity::Data : public QSharedData
 {
 public:
     Data() : identity(nullptr) {}
@@ -39,13 +39,11 @@ public:
 Identity::Identity()
         : d(new Data)
 {
-    g_type_init();
 }
 
 Identity::Identity(PolkitIdentity *polkitIdentity)
         : d(new Data)
 {
-    g_type_init();
     d->identity = polkitIdentity;
 
     if (d->identity) {
