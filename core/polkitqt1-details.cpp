@@ -14,7 +14,7 @@
 namespace PolkitQt1
 {
 
-class Details::Data : public QSharedData
+class Q_DECL_HIDDEN Details::Data : public QSharedData
 {
 public:
     Data() {}
@@ -39,14 +39,12 @@ public:
 Details::Details()
         : d(new Data)
 {
-    g_type_init();
     d->polkitDetails = polkit_details_new();
 }
 
 Details::Details(PolkitDetails *pkDetails)
         : d(new Data)
 {
-    g_type_init();
     d->polkitDetails = pkDetails;
     
     if (d->polkitDetails != nullptr) {
@@ -57,6 +55,8 @@ Details::Details(PolkitDetails *pkDetails)
 Details::~Details()
 {
 }
+
+Details::Details(const Details &other) = default;
 
 Details& Details::operator=(const PolkitQt1::Details& other)
 {

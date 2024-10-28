@@ -64,7 +64,7 @@ ActionDescription::List actionsToListAndFree(GList *glist)
     return result;
 }
 
-class Authority::Private
+class Q_DECL_HIDDEN Authority::Private
 {
 public:
     // Polkit will return NULL on failures, hence we use it instead of 0
@@ -172,8 +172,6 @@ void Authority::Private::init()
     QDBusError error;
     QDBusError dbus_error;
 
-    g_type_init();
-
     m_systemBus = new QDBusConnection(QDBusConnection::connectToBus(QDBusConnection::SystemBus,
                                                                     QStringLiteral("polkit_qt_system_bus")));
 
@@ -218,7 +216,6 @@ void Authority::Private::init()
     QString consoleKitService("org.freedesktop.ConsoleKit");
     QString consoleKitManagerPath("/org/freedesktop/ConsoleKit/Manager");
     QString consoleKitManagerInterface("org.freedesktop.ConsoleKit.Manager");
-    QString consoleKitSeatInterface("org.freedesktop.ConsoleKit.Seat");
 
     // first, add signals SeadAdded and SeatRemoved from ConsoleKit Manager
     dbusSignalAdd(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "SeatAdded");
