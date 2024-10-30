@@ -1,0 +1,13 @@
+Index: polkit-qt-1/agent/polkitqt1-agent-listener.cpp
+===================================================================
+--- polkit-qt-1.orig/agent/polkitqt1-agent-listener.cpp
++++ polkit-qt-1/agent/polkitqt1-agent-listener.cpp
+@@ -68,6 +68,8 @@ Listener::~Listener()
+     if (d->listener != nullptr) {
+         g_object_unref(d->listener);
+     }
++
++    delete d;
+ }
+ 
+ bool Listener::registerListener(const PolkitQt1::Subject &subject, const QString &objectPath)
