@@ -1,9 +1,3 @@
-polkit-qt-1 (0.200.0-4deepin1) unstable; urgency=medium
-
-  * add deepin patchs.
-
- -- lichenggang <lichenggang@deepin.org>  Wed, 30 Oct 2024 11:03:14 +0800
-
 polkit-qt-1 (0.200.0-4) unstable; urgency=medium
 
   * Reupload source-only so the package can migrate to testing.
