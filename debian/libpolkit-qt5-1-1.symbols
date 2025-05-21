@@ -3,17 +3,23 @@ libpolkit-qt5-agent-1.so.1 libpolkit-qt5-1-1 #MINVER#
 * Build-Depends-Package: libpolkit-qt5-1-dev
  _ZN9PolkitQt15Agent11AsyncResult12setCompletedEv@Base 0.112.0
  _ZN9PolkitQt15Agent11AsyncResult8setErrorERK7QString@Base 0.112.0
+ _ZN9PolkitQt15Agent11AsyncResult9setCancelERK7QString@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent11AsyncResultC1EP19_GSimpleAsyncResult@Base 0.112.0
  _ZN9PolkitQt15Agent11AsyncResultC2EP19_GSimpleAsyncResult@Base 0.112.0
  _ZN9PolkitQt15Agent11AsyncResultD0Ev@Base 0.112.0
  _ZN9PolkitQt15Agent11AsyncResultD1Ev@Base 0.112.0
  _ZN9PolkitQt15Agent11AsyncResultD2Ev@Base 0.112.0
+ _ZN9PolkitQt15Agent7Session10exAuthInfoEbR5QListIiE@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7Session11qt_metacallEN11QMetaObject4CallEiPPv@Base 0.112.0
  _ZN9PolkitQt15Agent7Session11qt_metacastEPKc@Base 0.112.0
  _ZN9PolkitQt15Agent7Session11setResponseERK7QString@Base 0.112.0
+ _ZN9PolkitQt15Agent7Session12exAuthStatusEiiRK7QString@Base 0.200.0-4deepin2
+ _ZN9PolkitQt15Agent7Session13setResponseExEiRK7QString@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7Session16staticMetaObjectE@Base 0.112.0
  _ZN9PolkitQt15Agent7Session6cancelEv@Base 0.112.0
  _ZN9PolkitQt15Agent7Session6resultEv@Base 0.112.0
+ _ZN9PolkitQt15Agent7Session7Private10exAuthInfoEP19_PolkitAgentSessioniPcPv@Base 0.200.0-4deepin2
+ _ZN9PolkitQt15Agent7Session7Private12exAuthStatusEP19_PolkitAgentSessioniiPcPv@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7Session7Private7requestEP19_PolkitAgentSessionPciPv@Base 0.112.0
  _ZN9PolkitQt15Agent7Session7Private8showInfoEP19_PolkitAgentSessionPcPv@Base 0.112.0
  _ZN9PolkitQt15Agent7Session7Private9completedEP19_PolkitAgentSessioniPv@Base 0.112.0
@@ -21,14 +27,15 @@ libpolkit-qt5-agent-1.so.1 libpolkit-qt5-1-1 #MINVER#
  _ZN9PolkitQt15Agent7Session7PrivateD1Ev@Base 0.112.0
  _ZN9PolkitQt15Agent7Session7PrivateD2Ev@Base 0.112.0
  _ZN9PolkitQt15Agent7Session7requestERK7QStringb@Base 0.112.0
+ _ZN9PolkitQt15Agent7Session8authCtrlE11auth_ctrl_ti@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7Session8initiateEv@Base 0.112.0
  _ZN9PolkitQt15Agent7Session8showInfoERK7QString@Base 0.112.0
  _ZN9PolkitQt15Agent7Session9completedEb@Base 0.112.0
  _ZN9PolkitQt15Agent7Session9showErrorERK7QString@Base 0.112.0
  _ZN9PolkitQt15Agent7SessionC1EP19_PolkitAgentSessionP7QObject@Base 0.112.0
- _ZN9PolkitQt15Agent7SessionC1ERKNS_8IdentityERK7QStringPNS0_11AsyncResultEP7QObject@Base 0.112.0
+ _ZN9PolkitQt15Agent7SessionC1ERKNS_8IdentityERK7QStringPNS0_11AsyncResultEP7QObjectPKNS_7DetailsE@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7SessionC2EP19_PolkitAgentSessionP7QObject@Base 0.112.0
- _ZN9PolkitQt15Agent7SessionC2ERKNS_8IdentityERK7QStringPNS0_11AsyncResultEP7QObject@Base 0.112.0
+ _ZN9PolkitQt15Agent7SessionC2ERKNS_8IdentityERK7QStringPNS0_11AsyncResultEP7QObjectPKNS_7DetailsE@Base 0.200.0-4deepin2
  _ZN9PolkitQt15Agent7SessionD0Ev@Base 0.112.0
  _ZN9PolkitQt15Agent7SessionD1Ev@Base 0.112.0
  _ZN9PolkitQt15Agent7SessionD2Ev@Base 0.112.0
@@ -216,6 +223,7 @@ libpolkit-qt5-core-1.so.1 libpolkit-qt5-1-1 #MINVER#
  _ZNK9PolkitQt122TemporaryAuthorization8actionIdEv@Base 0.112.0
  _ZNK9PolkitQt17Details4keysEv@Base 0.112.0
  _ZNK9PolkitQt17Details6lookupERK7QString@Base 0.112.0
+ _ZNK9PolkitQt17Details7detailsEv@Base 0.200.0-4deepin2
  _ZNK9PolkitQt17Subject7isValidEv@Base 0.112.0
  _ZNK9PolkitQt17Subject7subjectEv@Base 0.112.0
  _ZNK9PolkitQt17Subject8toStringEv@Base 0.112.0
